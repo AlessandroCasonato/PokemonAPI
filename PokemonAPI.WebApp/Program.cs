@@ -1,15 +1,22 @@
+using PokemonAPI.BL.ExternalServices;
+using PokemonAPI.BL.Interfaces;
+using PokemonAPI.BL.Services;
+using PokemonAPI.Entities.Mappings.Profiles;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAutoMapper(typeof(PokemonProfile).Assembly);
+
+builder.Services.AddScoped<IPokemonService, PokemonService>();
+builder.Services.AddScoped<IPokeApiService, PokeApiService>();
+builder.Services.AddScoped<IFunTranslationService, FunTranslationService>();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
